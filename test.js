@@ -1,16 +1,20 @@
-/* global describe:false it:false */
-const path = require('path')
+/* eslint-env node, mocha */
 const assert = require('chai').assert
-const getGuldDir = require('./index.js')
+const { getName } = require('guld-user')
+const { getPass, getHostName } = require('./util.js')
 
-describe('getGuldDir', function () {
-  it('cwd', async function () {
-    assert.isTrue((await getGuldDir()).endsWith('guld-git-path/.git'))
+describe('get-git-host', function () {
+  before(async function () {
+    this.user = await getName()
   })
-  it('absolute path', async function () {
-    assert.isTrue((await getGuldDir(path.resolve('./node_modules'))).endsWith('guld-git-path/.git'))
+  it('getPass', async function () {
+    var pass = await getPass(this.user, 'github')
+    assert.exists(pass.password)
+    assert.exists(pass.login)
   })
-  it('relative path', async function () {
-    assert.isTrue((await getGuldDir('./node_modules')).endsWith('guld-git-path/.git'))
+  it('getHostName', async function () {
+    var hostname = await getHostName('guld', 'github')
+    assert.exists(hostname)
+    assert.equal(hostname, 'guldcoin')
   })
 })
