@@ -1,4 +1,4 @@
-const { getAlias } = require('guld-user')
+const { getAlias, getName } = require('guld-user')
 const { pathEscape } = require('guld-git-path')
 const HOSTS = {
   bitbucket: require('guld-git-host-bitbucket'),
@@ -34,7 +34,7 @@ async function deleteRepo (rname, user) {
     .map(a => HOSTS[a].deleteRepo(rname, user)))
 }
 
-async function getHostURL (user, slug, host, protocol='https') {
+async function getHostURL (user, slug, host, protocol = 'https') {
   user = user || await getName()
   slug = slug || await pathEscape()
   var aliases = await getAlias(user)
