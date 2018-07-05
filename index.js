@@ -34,9 +34,9 @@ async function deleteRepo (rname, user) {
     .map(a => HOSTS[a].deleteRepo(rname, user)))
 }
 
-async function getHostURL (user, rname, host, protocol='https') {
+async function getHostURL (user, slug, host, protocol='https') {
   user = user || await getName()
-  rname = rname || await pathEscape()
+  slug = slug || await pathEscape()
   var aliases = await getAlias(user)
   var prefix
   var joiner
@@ -49,11 +49,16 @@ async function getHostURL (user, rname, host, protocol='https') {
   } else {
     throw new TypeError('unknown git protocol')
   }
-  if (host) return `${prefix}${HOSTS[host].meta.url}${joiner}${user}/${rname}.git`
-  else {
-    return Object.keys(HOSTS)
+  if (host) {
+    var aname = await getAlias(user, host)
+    return `${prefix}${HOSTS[host].meta.url}${joiner}${aname}/${slug}.git`
+  } else {
+    return Promise.all(Object.keys(HOSTS)
       .filter(a => aliases.hasOwnProperty(a))
-      .map(host => `${prefix}${HOSTS[host].meta.url}${joiner}${user}/${rname}.git`)
+      .map(async host => {
+        var aname = await getAlias(user, host)
+        return `${prefix}${HOSTS[host].meta.url}${joiner}${aname}/${slug}.git`
+      }))
   }
 }
 
