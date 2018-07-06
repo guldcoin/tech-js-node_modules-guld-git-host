@@ -62,11 +62,19 @@ async function getHostURL (user, slug, host, protocol = 'https') {
   }
 }
 
+async function addSSHKey (key) {
+  var aliases = await getAlias(user)
+  return Promise.all(Object.keys(HOSTS)
+    .filter(a => aliases.hasOwnProperty(a))
+    .map(a => HOSTS[a].addSSHKey(key)))
+}
+
 module.exports = {
   HOSTS: HOSTS,
   getClients: getClients,
   listRepos: listRepos,
   createRepo: createRepo,
   deleteRepo: deleteRepo,
-  getHostURL: getHostURL
+  getHostURL: getHostURL,
+  addSSHKey: addSSHKey
 }
