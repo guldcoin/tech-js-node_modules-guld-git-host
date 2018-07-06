@@ -63,7 +63,7 @@ async function getHostURL (user, slug, host, protocol = 'https') {
 }
 
 async function addSSHKey (key) {
-  var aliases = await getAlias(user)
+  var aliases = await getAlias(await getName())
   return Promise.all(Object.keys(HOSTS)
     .filter(a => aliases.hasOwnProperty(a))
     .map(a => HOSTS[a].addSSHKey(key)))
