@@ -7,6 +7,7 @@ const HOSTS = {
 }
 
 async function getClients (user) {
+  user = user || await getName()
   var aliases = await getAlias(user)
   return Promise.all(Object.keys(HOSTS)
     .filter(a => aliases.hasOwnProperty(a))
@@ -14,6 +15,7 @@ async function getClients (user) {
 }
 
 async function listRepos (user) {
+  user = user || await getName()
   var aliases = await getAlias(user)
   return Object.keys(HOSTS)
     .filter(a => aliases.hasOwnProperty(a))
@@ -21,13 +23,15 @@ async function listRepos (user) {
 }
 
 async function createRepo (rname, user, privacy = 'public', options = {}) {
+  user = user || await getName()
   var aliases = await getAlias(user)
   return Promise.all(Object.keys(HOSTS)
     .filter(a => aliases.hasOwnProperty(a))
-    .map(a => HOSTS[a].createRepo(rname, user, privacy, options)))
+    .map(a => HOSTS[a].createRepo(rname, user, privacy, options).catch()))
 }
 
 async function deleteRepo (rname, user) {
+  user = user || await getName()
   var aliases = await getAlias(user)
   return Promise.all(Object.keys(HOSTS)
     .filter(a => aliases.hasOwnProperty(a))
