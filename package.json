@@ -16,11 +16,11 @@
   "author": "isysd",
   "license": "MIT",
   "dependencies": {
-    "guld-git-host-bitbucket": "^0.4.8",
-    "guld-git-host-github": "^0.4.7",
-    "guld-git-host-gitlab": "^0.4.7",
-    "guld-git-path": "^1.0.9",
-    "guld-user": "^0.5.7"
+    "guld-git-host-bitbucket": "^0.4.9",
+    "guld-git-host-github": "^0.4.8",
+    "guld-git-host-gitlab": "^0.4.8",
+    "guld-git-path": "^1.0.10",
+    "guld-user": "^0.5.8"
   },
   "devDependencies": {
     "chai": "^4.1.2",
